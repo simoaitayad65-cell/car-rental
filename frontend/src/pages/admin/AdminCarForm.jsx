@@ -1,0 +1,173 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import api from "../../api/client";
+import PageContainer from "../../components/ui/PageContainer";
+import Card from "../../components/ui/Card";
+import Field, { Input, Select, Textarea } from "../../components/ui/Field";
+import Button from "../../components/ui/Button";
+
+const emptyForm = {
+  category_id: "",
+  marque: "",
+  modele: "",
+  immatriculation: "",
+  prix_jour: "",
+  statut: "disponible",
+  image: "",
+  images: "",
+};
+
+export default function AdminCarForm() {
+  const { id } = useParams();
+  const isEdit = Boolean(id);
+  const navigate = useNavigate();
+
+  const [categories, setCategories] = useState([]);
+  const [form, setForm] = useState(emptyForm);
+  const [loading, setLoading] = useState(isEdit);
+  const [errors, setErrors] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    api.get("/categories").then(({ data }) => setCategories(data));
+  }, []);
+
+  useEffect(() => {
+    if (!isEdit) return;
+    api
+      .get(`/cars/${id}`)
+      .then(({ data }) => {
+        setForm({
+          category_id: data.category_id ?? "",
+          marque: data.marque ?? "",
+          modele: data.modele ?? "",
+          immatriculation: data.immatriculation ?? "",
+          prix_jour: data.prix_jour ?? "",
+          statut: data.statut ?? "disponible",
+          image: data.image ?? "",
+          images: "",
+        });
+      })
+      .catch(() => setErrors({ message: "Voiture introuvable" }))
+      .finally(() => setLoading(false));
+  }, [id, isEdit]);
+
+  function update(field) {
+    return (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setErrors(null);
+    setSubmitting(true);
+
+    const payload = {
+      category_id: form.category_id || null,
+      marque: form.marque,
+      modele: form.modele,
+      immatriculation: form.immatriculation,
+      prix_jour: form.prix_jour,
+      statut: form.statut,
+      image: form.image || null,
+    };
+
+    if (!isEdit) {
+      payload.images = form.images
+        .split("\n")
+        .map((s) => s.trim())
+        .filter(Boolean);
+    }
+
+    try {
+      if (isEdit) {
+        await api.put(`/cars/${id}`, payload);
+      } else {
+        await api.post("/cars", payload);
+      }
+      navigate("/admin/cars");
+    } catch (err) {
+      setErrors(err.response?.data ?? { message: "Erreur lors de l'enregistrement" });
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  if (loading) return <p className="py-16 text-center text-slate-500 dark:text-slate-400">Chargement...</p>;
+
+  return (
+    <PageContainer narrow>
+      <Card className="p-6">
+        <h2 className="mb-4 text-lg font-semibold text-slate-900 dark:text-white">
+          {isEdit ? "Modifier la voiture" : "Ajouter une voiture"}
+        </h2>
+
+        <form onSubmit={handleSubmit}>
+          <Field label="Catégorie">
+            <Select value={form.category_id} onChange={update("category_id")}>
+              <option value="">Sans catégorie</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.nom}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <div className="grid grid-cols-2 gap-4">
+            <Field label="Marque">
+              <Input value={form.marque} onChange={update("marque")} required />
+            </Field>
+            <Field label="Modèle">
+              <Input value={form.modele} onChange={update("modele")} required />
+            </Field>
+          </div>
+          <Field label="Immatriculation">
+            <Input value={form.immatriculation} onChange={update("immatriculation")} required />
+          </Field>
+          <div className="grid grid-cols-2 gap-4">
+            <Field label="Prix / jour (€)">
+              <Input
+                type="number"
+                step="0.01"
+                min="0"
+                value={form.prix_jour}
+                onChange={update("prix_jour")}
+                required
+              />
+            </Field>
+            <Field label="Statut">
+              <Select value={form.statut} onChange={update("statut")}>
+                <option value="disponible">Disponible</option>
+                <option value="loue">Loué</option>
+                <option value="maintenance">Maintenance</option>
+              </Select>
+            </Field>
+          </div>
+          <Field label="Image (URL)">
+            <Input value={form.image} onChange={update("image")} placeholder="https://..." />
+          </Field>
+          {!isEdit && (
+            <Field label="Galerie (une URL par ligne)">
+              <Textarea value={form.images} onChange={update("images")} rows={3} />
+            </Field>
+          )}
+
+          {errors && (
+            <ul className="mb-4 list-disc space-y-1 pl-5 text-sm text-red-600 dark:text-red-400">
+              {Object.entries(errors)
+                .filter(([key]) => key !== "message")
+                .flatMap(([, messages]) => messages)
+                .map((msg) => (
+                  <li key={msg}>{msg}</li>
+                ))}
+              {errors.message && <li>{errors.message}</li>}
+            </ul>
+          )}
+
+          <Button type="submit" disabled={submitting}>
+            {submitting ? "Enregistrement..." : isEdit ? "Enregistrer" : "Créer"}
+          </Button>
+        </form>
+      </Card>
+    </PageContainer>
+  );
+}

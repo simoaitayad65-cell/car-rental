@@ -1,0 +1,5 @@
+# Fichiers système / éditeurs (au cas où ils apparaîtraient à la racine)
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
