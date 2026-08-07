@@ -8,6 +8,9 @@ ENV WEBROOT /var/www/html/public
 ENV PHP_ERRORS_STDERR 1
 ENV RUN_SCRIPTS 1
 ENV REAL_IP_HEADER 1
+# Indispensable pour Laravel : sans ça, nginx ne route pas les URLs
+# "propres" (/, /api/...) vers index.php et retourne 404 pour tout.
+ENV PHP_CATCHALL 1
 
 # Config Laravel (production)
 ENV APP_ENV production
