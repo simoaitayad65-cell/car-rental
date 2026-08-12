@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Search, CarFront } from "lucide-react";
 import api from "../api/client";
 import PageContainer from "../components/ui/PageContainer";
-import Card from "../components/ui/Card";
-import Badge from "../components/ui/Badge";
+import CarCard from "../components/CarCard";
+import EmptyState from "../components/ui/EmptyState";
+import { SkeletonGrid } from "../components/ui/Skeleton";
 import { Select } from "../components/ui/Field";
-import { CAR_STATUT_LABELS, CAR_STATUT_COLORS } from "../lib/statuts";
 
 export default function Cars() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [cars, setCars] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [categoryId, setCategoryId] = useState("");
+  const [categoryId, setCategoryId] = useState(searchParams.get("category_id") ?? "");
+  const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -29,13 +33,46 @@ export default function Cars() {
       .then(({ data }) => setCars(data))
       .catch(() => setError("Impossible de charger les voitures"))
       .finally(() => setLoading(false));
+
+    setSearchParams(categoryId ? { category_id: categoryId } : {}, { replace: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId]);
+
+  const visibleCars = useMemo(() => {
+    let result = cars;
+    if (search.trim()) {
+      const q = search.trim().toLowerCase();
+      result = result.filter((c) => `${c.marque} ${c.modele}`.toLowerCase().includes(q));
+    }
+    if (sortBy === "price_asc") {
+      result = [...result].sort((a, b) => Number(a.prix_jour) - Number(b.prix_jour));
+    } else if (sortBy === "price_desc") {
+      result = [...result].sort((a, b) => Number(b.prix_jour) - Number(a.prix_jour));
+    }
+    return result;
+  }, [cars, search, sortBy]);
 
   return (
     <PageContainer>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Voitures disponibles</h1>
-        <Select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className="w-48">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Nos voitures</h1>
+        <p className="mt-1 text-slate-500 dark:text-slate-400">
+          {loading ? "Chargement du catalogue..." : `${visibleCars.length} véhicule(s) disponible(s)`}
+        </p>
+      </div>
+
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="relative flex-1">
+          <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Rechercher une marque ou un modèle..."
+            className="w-full rounded-md border border-slate-300 py-2 pl-9 pr-3 text-sm shadow-sm focus:border-blue-900 focus:outline-none focus:ring-1 focus:ring-blue-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+          />
+        </div>
+        <Select value={categoryId} onChange={(e) => setCategoryId(e.target.value)} className="sm:w-48">
           <option value="">Toutes les catégories</option>
           {categories.map((c) => (
             <option key={c.id} value={c.id}>
@@ -43,43 +80,31 @@ export default function Cars() {
             </option>
           ))}
         </Select>
+        <Select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="sm:w-48">
+          <option value="">Trier par</option>
+          <option value="price_asc">Prix croissant</option>
+          <option value="price_desc">Prix décroissant</option>
+        </Select>
       </div>
 
-      {loading && <p className="text-slate-500 dark:text-slate-400">Chargement...</p>}
       {error && <p className="text-red-600 dark:text-red-400">{error}</p>}
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {cars.map((car) => (
-          <Link key={car.id} to={`/cars/${car.id}`}>
-            <Card className="group h-full overflow-hidden transition-all duration-200 hover:-translate-y-1 hover:shadow-lg">
-              {car.image && (
-                <div className="overflow-hidden">
-                  <img
-                    src={car.image}
-                    alt={`${car.marque} ${car.modele}`}
-                    className="h-40 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
-                </div>
-              )}
-              <div className="p-4">
-                <div className="mb-1 flex items-start justify-between gap-2">
-                  <strong className="text-slate-900 dark:text-white">
-                    {car.marque} {car.modele}
-                  </strong>
-                  <Badge color={CAR_STATUT_COLORS[car.statut]}>
-                    {CAR_STATUT_LABELS[car.statut] ?? car.statut}
-                  </Badge>
-                </div>
-                <p className="mb-2 text-sm text-slate-500 dark:text-slate-400">{car.category?.nom ?? "Sans catégorie"}</p>
-                <p className="font-semibold text-amber-700 dark:text-amber-500">{car.prix_jour} €/jour</p>
-              </div>
-            </Card>
-          </Link>
-        ))}
-      </div>
+      {loading && <SkeletonGrid count={6} />}
 
-      {!loading && cars.length === 0 && !error && (
-        <p className="py-12 text-center text-slate-500 dark:text-slate-400">Aucune voiture trouvée.</p>
+      {!loading && !error && visibleCars.length > 0 && (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {visibleCars.map((car) => (
+            <CarCard key={car.id} car={car} />
+          ))}
+        </div>
+      )}
+
+      {!loading && !error && visibleCars.length === 0 && (
+        <EmptyState
+          icon={CarFront}
+          title="Aucune voiture trouvée"
+          description="Essayez d'élargir votre recherche ou de changer de catégorie."
+        />
       )}
     </PageContainer>
   );

@@ -2,9 +2,9 @@ import { Link } from "react-router-dom";
 
 export const buttonVariants = {
   primary:
-    "bg-violet-700 text-white hover:bg-violet-900 focus-visible:outline-violet-700",
+    "bg-blue-900 text-white hover:bg-blue-950 focus-visible:outline-blue-900",
   secondary:
-    "bg-white text-stone-700 border border-stone-300 hover:bg-stone-50 focus-visible:outline-stone-400 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700",
+    "bg-slate-50 text-slate-700 border border-slate-300 hover:bg-slate-100 focus-visible:outline-slate-400 dark:bg-slate-800 dark:text-slate-200 dark:border-slate-700 dark:hover:bg-slate-700",
   accent:
     "bg-amber-500 text-slate-900 hover:bg-amber-600 focus-visible:outline-amber-500",
   danger:

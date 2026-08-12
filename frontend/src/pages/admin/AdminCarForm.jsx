@@ -15,6 +15,12 @@ const emptyForm = {
   statut: "disponible",
   image: "",
   images: "",
+  nb_places: "",
+  transmission: "",
+  carburant: "",
+  nb_portes: "",
+  climatisation: true,
+  description: "",
 };
 
 export default function AdminCarForm() {
@@ -46,6 +52,12 @@ export default function AdminCarForm() {
           statut: data.statut ?? "disponible",
           image: data.image ?? "",
           images: "",
+          nb_places: data.nb_places ?? "",
+          transmission: data.transmission ?? "",
+          carburant: data.carburant ?? "",
+          nb_portes: data.nb_portes ?? "",
+          climatisation: data.climatisation ?? true,
+          description: data.description ?? "",
         });
       })
       .catch(() => setErrors({ message: "Voiture introuvable" }))
@@ -69,6 +81,12 @@ export default function AdminCarForm() {
       prix_jour: form.prix_jour,
       statut: form.statut,
       image: form.image || null,
+      nb_places: form.nb_places || null,
+      transmission: form.transmission || null,
+      carburant: form.carburant || null,
+      nb_portes: form.nb_portes || null,
+      climatisation: form.climatisation,
+      description: form.description || null,
     };
 
     if (!isEdit) {
@@ -142,6 +160,52 @@ export default function AdminCarForm() {
               </Select>
             </Field>
           </div>
+
+          <p className="mb-2 mt-2 text-xs font-semibold uppercase tracking-wide text-slate-400">
+            Caractéristiques (facultatif)
+          </p>
+          <div className="grid grid-cols-2 gap-4">
+            <Field label="Nombre de places">
+              <Input type="number" min="1" max="50" value={form.nb_places} onChange={update("nb_places")} />
+            </Field>
+            <Field label="Nombre de portes">
+              <Input type="number" min="1" max="10" value={form.nb_portes} onChange={update("nb_portes")} />
+            </Field>
+            <Field label="Transmission">
+              <Select value={form.transmission} onChange={update("transmission")}>
+                <option value="">Non renseigné</option>
+                <option value="manuelle">Manuelle</option>
+                <option value="automatique">Automatique</option>
+              </Select>
+            </Field>
+            <Field label="Carburant">
+              <Select value={form.carburant} onChange={update("carburant")}>
+                <option value="">Non renseigné</option>
+                <option value="essence">Essence</option>
+                <option value="diesel">Diesel</option>
+                <option value="hybride">Hybride</option>
+                <option value="electrique">Électrique</option>
+              </Select>
+            </Field>
+          </div>
+          <label className="mb-4 flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+            <input
+              type="checkbox"
+              checked={form.climatisation}
+              onChange={(e) => setForm((f) => ({ ...f, climatisation: e.target.checked }))}
+              className="h-4 w-4 rounded border-slate-300 text-blue-900 focus:ring-blue-900"
+            />
+            Climatisation
+          </label>
+          <Field label="Description">
+            <Textarea
+              value={form.description}
+              onChange={update("description")}
+              rows={3}
+              placeholder="Quelques phrases pour présenter le véhicule..."
+            />
+          </Field>
+
           <Field label="Image (URL)">
             <Input value={form.image} onChange={update("image")} placeholder="https://..." />
           </Field>

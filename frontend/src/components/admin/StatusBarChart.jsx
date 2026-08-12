@@ -8,7 +8,7 @@ export default function StatusBarChart({ title, bars }) {
   const max = Math.max(...bars.map((b) => b.value), 1);
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <h3 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">{title}</h3>
 
       <div className="space-y-4">

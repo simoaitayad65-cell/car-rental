@@ -1,10 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import { ToastProvider } from "./context/ToastContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 import PublicLayout from "./layouts/PublicLayout";
 import AdminLayout from "./layouts/AdminLayout";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
@@ -23,11 +25,12 @@ function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
+        <ToastProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
 
           <Route element={<PublicLayout />}>
-            <Route path="/" element={<Navigate to="/cars" replace />} />
+            <Route path="/" element={<Home />} />
             <Route path="/cars" element={<Cars />} />
             <Route path="/cars/:id" element={<CarDetail />} />
             <Route path="/register" element={<Register />} />
@@ -76,6 +79,7 @@ function App() {
             <Route path="chat" element={<AdminChat />} />
           </Route>
         </Routes>
+        </ToastProvider>
       </ThemeProvider>
     </AuthProvider>
   );

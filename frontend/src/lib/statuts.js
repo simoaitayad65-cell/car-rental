@@ -20,7 +20,7 @@ export const RESERVATION_STATUT_LABELS = {
 
 export const RESERVATION_STATUT_COLORS = {
   en_attente: "gray",
-  confirmee: "violet",
+  confirmee: "blue",
   en_cours: "indigo",
   terminee: "green",
   annulee: "red",

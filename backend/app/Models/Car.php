@@ -8,6 +8,11 @@ class Car extends Model
 {
     protected $fillable = [
         'category_id', 'marque', 'modele', 'immatriculation', 'prix_jour', 'statut', 'image',
+        'nb_places', 'transmission', 'carburant', 'nb_portes', 'climatisation', 'description',
+    ];
+
+    protected $casts = [
+        'climatisation' => 'boolean',
     ];
 
     public function category()

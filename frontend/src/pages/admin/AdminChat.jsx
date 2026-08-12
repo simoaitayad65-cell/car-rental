@@ -3,6 +3,7 @@ import { Send, ArrowLeft, MessageCircle } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../api/client";
 import Badge from "../../components/ui/Badge";
+import EmptyState from "../../components/ui/EmptyState";
 
 const POLL_INTERVAL = 3000;
 
@@ -78,22 +79,24 @@ export default function AdminChat() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="mb-6 text-2xl font-bold text-slate-900 dark:text-white">Messages</h1>
-    <div className="flex h-[75vh] overflow-hidden rounded-xl border border-stone-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <div className="flex h-[75vh] overflow-hidden rounded-xl border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       {/* Conversation list */}
-      <div className={`w-full shrink-0 border-r border-stone-200 dark:border-slate-800 lg:block lg:w-80 ${selected ? "hidden" : "block"}`}>
+      <div className={`w-full shrink-0 border-r border-slate-200 dark:border-slate-800 lg:block lg:w-80 ${selected ? "hidden" : "block"}`}>
         <div className="overflow-y-auto">
           {conversations.length === 0 && (
-            <p className="p-4 text-sm text-slate-500 dark:text-slate-400">Aucune conversation pour l'instant.</p>
+            <div className="p-4">
+              <EmptyState icon={MessageCircle} title="Aucune conversation" description="Les messages des clients apparaîtront ici." />
+            </div>
           )}
           {conversations.map((conv) => (
             <button
               key={conv.user.id}
               onClick={() => selectConversation(conv)}
-              className={`flex w-full items-start gap-3 border-b border-stone-100 p-4 text-left transition-colors hover:bg-stone-50 dark:border-slate-800 dark:hover:bg-slate-800 ${
-                selected?.user.id === conv.user.id ? "bg-violet-50 dark:bg-violet-500/10" : ""
+              className={`flex w-full items-start gap-3 border-b border-slate-100 p-4 text-left transition-colors hover:bg-slate-50 dark:border-slate-800 dark:hover:bg-slate-800 ${
+                selected?.user.id === conv.user.id ? "bg-blue-50 dark:bg-blue-500/10" : ""
               }`}
             >
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-violet-700 text-sm font-semibold text-white">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-900 text-sm font-semibold text-white">
                 {conv.user.name?.[0]?.toUpperCase()}
               </div>
               <div className="min-w-0 flex-1">
@@ -110,7 +113,7 @@ export default function AdminChat() {
                 </p>
               </div>
               {conv.unread_count > 0 && (
-                <Badge color="violet">{conv.unread_count}</Badge>
+                <Badge color="blue">{conv.unread_count}</Badge>
               )}
             </button>
           ))}
@@ -128,11 +131,11 @@ export default function AdminChat() {
 
         {selected && (
           <>
-            <div className="flex items-center gap-3 border-b border-stone-200 p-4 dark:border-slate-800">
+            <div className="flex items-center gap-3 border-b border-slate-200 p-4 dark:border-slate-800">
               <button onClick={() => setSelected(null)} className="text-slate-500 lg:hidden">
                 <ArrowLeft size={20} />
               </button>
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-700 text-sm font-semibold text-white">
+              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-900 text-sm font-semibold text-white">
                 {selected.user.name?.[0]?.toUpperCase()}
               </div>
               <div>
@@ -150,8 +153,8 @@ export default function AdminChat() {
                       <div
                         className={`rounded-2xl px-4 py-2 text-sm ${
                           isMine
-                            ? "rounded-br-sm bg-violet-700 text-white"
-                            : "rounded-bl-sm bg-stone-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200"
+                            ? "rounded-br-sm bg-blue-900 text-white"
+                            : "rounded-bl-sm bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-200"
                         }`}
                       >
                         {m.body}
@@ -166,20 +169,24 @@ export default function AdminChat() {
               <div ref={bottomRef} />
             </div>
 
-            <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-stone-200 p-3 dark:border-slate-800">
+            <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-slate-200 p-3 dark:border-slate-800">
               <input
                 type="text"
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 placeholder="Répondre..."
-                className="flex-1 rounded-full border border-stone-300 px-4 py-2 text-sm focus:border-violet-700 focus:outline-none focus:ring-1 focus:ring-violet-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+                className="flex-1 rounded-full border border-slate-300 px-4 py-2 text-sm focus:border-blue-900 focus:outline-none focus:ring-1 focus:ring-blue-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
               />
               <button
                 type="submit"
                 disabled={sending || !body.trim()}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-700 text-white transition-colors hover:bg-violet-900 disabled:opacity-50"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-blue-900 text-white transition-colors hover:bg-blue-950 disabled:opacity-50"
               >
-                <Send size={16} />
+                {sending ? (
+                  <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                ) : (
+                  <Send size={16} />
+                )}
               </button>
             </form>
           </>

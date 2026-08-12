@@ -25,12 +25,12 @@ export default function AdminDashboard() {
   const { totals } = stats;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl animate-fade-in-up px-4 py-8 sm:px-6 lg:px-8">
       <h1 className="mb-6 text-2xl font-bold text-slate-900 dark:text-white">Tableau de bord</h1>
 
       {/* KPI row */}
       <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard icon={CalendarCheck} label="Réservations totales" value={totals.reservations} accent="violet" />
+        <StatCard icon={CalendarCheck} label="Réservations totales" value={totals.reservations} accent="blue" />
         <StatCard
           icon={Euro}
           label="Revenu (payé)"
@@ -70,10 +70,10 @@ export default function AdminDashboard() {
         </div>
 
         {/* Recent reservations */}
-        <div className="rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:col-span-2">
+        <div className="rounded-xl border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:col-span-2">
           <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
             <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Dernières réservations</h3>
-            <Link to="/reservations" className="text-sm font-medium text-violet-700 hover:underline dark:text-violet-400">
+            <Link to="/reservations" className="text-sm font-medium text-blue-900 hover:underline dark:text-blue-400">
               Voir tout →
             </Link>
           </div>
@@ -109,10 +109,10 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recently added cars */}
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Dernières voitures ajoutées</h3>
-          <Link to="/admin/cars" className="text-sm font-medium text-violet-700 hover:underline dark:text-violet-400">
+          <Link to="/admin/cars" className="text-sm font-medium text-blue-900 hover:underline dark:text-blue-400">
             Voir tout →
           </Link>
         </div>

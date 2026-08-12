@@ -1,12 +1,12 @@
 const fieldClasses =
-  "block w-full rounded-md border border-stone-300 px-3 py-2 text-sm shadow-sm focus:border-violet-700 focus:outline-none focus:ring-1 focus:ring-violet-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:placeholder:text-slate-500";
+  "block w-full rounded-md border border-slate-300 px-3 py-2 text-sm shadow-sm focus:border-blue-900 focus:outline-none focus:ring-1 focus:ring-blue-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:placeholder:text-slate-500";
 
 export function Input({ className = "", ...props }) {
   return <input className={`${fieldClasses} ${className}`} {...props} />;
 }
 
 export function Select({ className = "", ...props }) {
-  return <select className={`${fieldClasses} bg-white dark:bg-slate-800 ${className}`} {...props} />;
+  return <select className={`${fieldClasses} bg-slate-50 dark:bg-slate-800 ${className}`} {...props} />;
 }
 
 export function Textarea({ className = "", ...props }) {

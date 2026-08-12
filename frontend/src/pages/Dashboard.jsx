@@ -36,7 +36,7 @@ export default function Dashboard() {
         <Card className="p-8">
           <div className="mb-4 flex items-center justify-between">
             <h1 className="text-2xl font-bold text-slate-900">Bienvenue {user?.name}</h1>
-            <Badge color={user?.role === "admin" ? "indigo" : "violet"}>{user?.role}</Badge>
+            <Badge color={user?.role === "admin" ? "indigo" : "blue"}>{user?.role}</Badge>
           </div>
 
           <dl className="mb-6 space-y-2 text-sm">
@@ -68,7 +68,7 @@ export default function Dashboard() {
             <h2 className="text-lg font-semibold text-slate-900">
               {user?.role === "admin" ? "Dernières réservations" : "Mes réservations"}
             </h2>
-            <Link to="/reservations" className="text-sm font-medium text-violet-700 hover:underline">
+            <Link to="/reservations" className="text-sm font-medium text-blue-900 hover:underline">
               Voir tout →
             </Link>
           </div>
@@ -79,7 +79,7 @@ export default function Dashboard() {
           {!loading && !error && reservations.length === 0 && (
             <p className="text-sm text-slate-500">
               Aucune réservation pour l'instant.{" "}
-              <Link to="/cars" className="font-medium text-violet-700 hover:underline">
+              <Link to="/cars" className="font-medium text-blue-900 hover:underline">
                 Voir les voitures
               </Link>
             </p>

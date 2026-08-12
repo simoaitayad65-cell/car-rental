@@ -7,9 +7,9 @@ export default function AdminLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-stone-100 dark:bg-slate-950 lg:flex">
+    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 lg:flex">
       {/* Desktop sidebar */}
-      <aside className="hidden lg:block lg:w-64 lg:shrink-0 lg:border-r lg:border-stone-200 lg:dark:border-slate-800">
+      <aside className="hidden lg:block lg:w-64 lg:shrink-0 lg:border-r lg:border-slate-200 lg:dark:border-slate-800">
         <div className="fixed h-screen w-64">
           <AdminSidebar />
         </div>
@@ -27,7 +27,7 @@ export default function AdminLayout() {
 
       <div className="min-w-0 flex-1">
         {/* Mobile top bar */}
-        <div className="flex items-center gap-3 border-b border-stone-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900 lg:hidden">
+        <div className="flex items-center gap-3 border-b border-slate-200 bg-slate-50 px-4 py-3 dark:border-slate-800 dark:bg-slate-900 lg:hidden">
           <button
             type="button"
             onClick={() => setMobileOpen(true)}

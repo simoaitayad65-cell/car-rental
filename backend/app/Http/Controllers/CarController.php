@@ -40,6 +40,12 @@ class CarController extends Controller
             'image' => 'nullable|string|max:2048',
             'images' => 'array',
             'images.*' => 'string|max:2048',
+            'nb_places' => 'nullable|integer|min:1|max:50',
+            'transmission' => 'nullable|in:manuelle,automatique',
+            'carburant' => 'nullable|in:essence,diesel,hybride,electrique',
+            'nb_portes' => 'nullable|integer|min:1|max:10',
+            'climatisation' => 'boolean',
+            'description' => 'nullable|string|max:2000',
         ]);
 
         if ($validator->fails()) {
@@ -69,6 +75,12 @@ class CarController extends Controller
             'prix_jour' => 'sometimes|required|numeric|min:0',
             'statut' => 'in:disponible,loue,maintenance',
             'image' => 'nullable|string|max:2048',
+            'nb_places' => 'nullable|integer|min:1|max:50',
+            'transmission' => 'nullable|in:manuelle,automatique',
+            'carburant' => 'nullable|in:essence,diesel,hybride,electrique',
+            'nb_portes' => 'nullable|integer|min:1|max:10',
+            'climatisation' => 'boolean',
+            'description' => 'nullable|string|max:2000',
         ]);
 
         if ($validator->fails()) {

@@ -7,13 +7,13 @@ import Button, { LinkButton } from "./ui/Button";
 
 const linkClasses = ({ isActive }) =>
   `text-sm font-medium transition-colors ${
-    isActive ? "text-violet-700 dark:text-violet-400" : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
+    isActive ? "text-blue-900 dark:text-blue-400" : "text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
   }`;
 
 const mobileLinkClasses = ({ isActive }) =>
   `block rounded-lg px-3 py-2.5 text-sm font-medium ${
     isActive
-      ? "bg-violet-50 text-violet-700 dark:bg-violet-500/10 dark:text-violet-400"
+      ? "bg-blue-50 text-blue-900 dark:bg-blue-500/10 dark:text-blue-400"
       : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
   }`;
 
@@ -30,9 +30,9 @@ export default function Nav() {
   }
 
   return (
-    <nav className="border-b border-stone-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+    <nav className="border-b border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-        <Link to="/cars" className="text-lg font-bold text-violet-900 dark:text-violet-300">
+        <Link to="/cars" className="text-lg font-bold text-blue-900 dark:text-blue-300">
           🚗 Mounfact Car
         </Link>
 
@@ -114,7 +114,7 @@ export default function Nav() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="space-y-1 border-t border-stone-200 px-4 py-3 dark:border-slate-800 md:hidden">
+        <div className="space-y-1 border-t border-slate-200 px-4 py-3 dark:border-slate-800 md:hidden">
           <NavLink to="/cars" className={mobileLinkClasses} onClick={() => setOpen(false)}>
             Voitures
           </NavLink>

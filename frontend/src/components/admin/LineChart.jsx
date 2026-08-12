@@ -70,7 +70,7 @@ export default function LineChart({ title, data, color, isCurrency = false }) {
   const hovered = hoverIndex !== null ? points[hoverIndex] : null;
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <div className="rounded-xl border border-slate-200 bg-slate-50 p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="mb-3 flex items-baseline justify-between">
         <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">{title}</h3>
         <span className="text-lg font-semibold text-slate-900 dark:text-white">

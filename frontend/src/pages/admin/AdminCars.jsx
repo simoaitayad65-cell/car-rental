@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
+import { Car as CarIcon } from "lucide-react";
 import api from "../../api/client";
+import { useToast } from "../../context/ToastContext";
 import PageContainer from "../../components/ui/PageContainer";
 import Card from "../../components/ui/Card";
 import Badge from "../../components/ui/Badge";
+import EmptyState from "../../components/ui/EmptyState";
+import { SkeletonRows } from "../../components/ui/Skeleton";
 import { LinkButton } from "../../components/ui/Button";
 import { CAR_STATUT_LABELS, CAR_STATUT_COLORS } from "../../lib/statuts";
 
 export default function AdminCars() {
+  const toast = useToast();
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,9 +35,10 @@ export default function AdminCars() {
 
     try {
       await api.delete(`/cars/${car.id}`);
+      toast.success("Voiture supprimée.");
       load();
     } catch {
-      setError("Suppression impossible");
+      toast.error("Suppression impossible");
     }
   }
 
@@ -43,53 +49,102 @@ export default function AdminCars() {
         <LinkButton to="/admin/cars/new">+ Ajouter une voiture</LinkButton>
       </div>
 
-      {loading && <p className="text-slate-500 dark:text-slate-400">Chargement...</p>}
-      {error && <p className="text-red-600 dark:text-red-400">{error}</p>}
-
-      {!loading && cars.length > 0 && (
-        <Card className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="border-b border-slate-200 bg-slate-50 text-slate-600 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-400">
-              <tr>
-                <th className="px-4 py-3 font-medium">Voiture</th>
-                <th className="px-4 py-3 font-medium">Catégorie</th>
-                <th className="px-4 py-3 font-medium">Prix/jour</th>
-                <th className="px-4 py-3 font-medium">Statut</th>
-                <th className="px-4 py-3 font-medium">Immatriculation</th>
-                <th className="px-4 py-3"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {cars.map((car) => (
-                <tr key={car.id} className="border-b border-slate-100 last:border-0 dark:border-slate-800">
-                  <td className="px-4 py-3 font-medium text-slate-800 dark:text-slate-200">
-                    {car.marque} {car.modele}
-                  </td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{car.category?.nom ?? "—"}</td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{car.prix_jour} €</td>
-                  <td className="px-4 py-3">
-                    <Badge color={CAR_STATUT_COLORS[car.statut]}>
-                      {CAR_STATUT_LABELS[car.statut] ?? car.statut}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{car.immatriculation}</td>
-                  <td className="space-x-2 px-4 py-3 text-right">
-                    <LinkButton to={`/admin/cars/${car.id}/edit`} variant="secondary">
-                      Modifier
-                    </LinkButton>
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(car)}
-                      className="text-sm font-medium text-red-600 hover:underline dark:text-red-400"
-                    >
-                      Supprimer
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {loading && (
+        <Card className="overflow-hidden">
+          <SkeletonRows count={5} />
         </Card>
+      )}
+      {!loading && error && <p className="text-red-600 dark:text-red-400">{error}</p>}
+
+      {!loading && !error && cars.length === 0 && (
+        <EmptyState
+          icon={CarIcon}
+          title="Aucune voiture"
+          description="Ajoutez votre premier véhicule au catalogue."
+          actionLabel="Ajouter une voiture"
+          actionTo="/admin/cars/new"
+        />
+      )}
+
+      {!loading && !error && cars.length > 0 && (
+        <>
+          {/* Desktop / tablet */}
+          <Card className="hidden overflow-x-auto sm:block">
+            <table className="w-full text-left text-sm">
+              <thead className="border-b border-slate-200 bg-slate-100 text-slate-600 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-400">
+                <tr>
+                  <th className="px-4 py-3 font-medium">Voiture</th>
+                  <th className="px-4 py-3 font-medium">Catégorie</th>
+                  <th className="px-4 py-3 font-medium">Prix/jour</th>
+                  <th className="px-4 py-3 font-medium">Statut</th>
+                  <th className="px-4 py-3 font-medium">Immatriculation</th>
+                  <th className="px-4 py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {cars.map((car) => (
+                  <tr key={car.id} className="border-b border-slate-100 last:border-0 dark:border-slate-800">
+                    <td className="px-4 py-3 font-medium text-slate-800 dark:text-slate-200">
+                      {car.marque} {car.modele}
+                    </td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{car.category?.nom ?? "—"}</td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{car.prix_jour} €</td>
+                    <td className="px-4 py-3">
+                      <Badge color={CAR_STATUT_COLORS[car.statut]}>
+                        {CAR_STATUT_LABELS[car.statut] ?? car.statut}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-3 text-slate-600 dark:text-slate-400">{car.immatriculation}</td>
+                    <td className="space-x-2 px-4 py-3 text-right">
+                      <LinkButton to={`/admin/cars/${car.id}/edit`} variant="secondary">
+                        Modifier
+                      </LinkButton>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(car)}
+                        className="text-sm font-medium text-red-600 hover:underline dark:text-red-400"
+                      >
+                        Supprimer
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </Card>
+
+          {/* Mobile */}
+          <div className="space-y-3 sm:hidden">
+            {cars.map((car) => (
+              <Card key={car.id} className="p-4">
+                <div className="mb-2 flex items-start justify-between gap-2">
+                  <div>
+                    <p className="font-medium text-slate-800 dark:text-slate-200">
+                      {car.marque} {car.modele}
+                    </p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">{car.category?.nom ?? "Sans catégorie"}</p>
+                  </div>
+                  <Badge color={CAR_STATUT_COLORS[car.statut]}>{CAR_STATUT_LABELS[car.statut] ?? car.statut}</Badge>
+                </div>
+                <p className="mb-3 text-sm text-slate-600 dark:text-slate-400">
+                  {car.prix_jour} €/jour · {car.immatriculation}
+                </p>
+                <div className="flex gap-2">
+                  <LinkButton to={`/admin/cars/${car.id}/edit`} variant="secondary" className="flex-1 justify-center">
+                    Modifier
+                  </LinkButton>
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(car)}
+                    className="flex-1 rounded-md border border-red-200 text-sm font-medium text-red-600 hover:bg-red-50 dark:border-red-500/30 dark:text-red-400 dark:hover:bg-red-500/10"
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              </Card>
+            ))}
+          </div>
+        </>
       )}
     </PageContainer>
   );
