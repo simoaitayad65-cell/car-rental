@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminStatsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FleetController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
@@ -53,6 +54,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/payments/{payment}', [PaymentController::class, 'update']);
 
         Route::get('/admin/stats', [AdminStatsController::class, 'index']);
+
+        Route::get('/admin/fleet', [FleetController::class, 'index']);
+        Route::get('/admin/cars/{car}/movements', [FleetController::class, 'movements']);
+        Route::post('/admin/cars/{car}/mark-available', [FleetController::class, 'markAvailable']);
 
         Route::get('/admin/conversations', [MessageController::class, 'adminIndex']);
         Route::get('/admin/conversations/{client}', [MessageController::class, 'adminShow']);

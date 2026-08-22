@@ -1,5 +1,7 @@
 const STATUS_COLORS = {
   good: "#0ca30c",
+  pending: "#5b5fc7",
+  info: "#2a78d6",
   warning: "#fab219",
   critical: "#d03b3b",
 };

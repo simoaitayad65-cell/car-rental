@@ -5,6 +5,10 @@ import PageContainer from "../../components/ui/PageContainer";
 import Card from "../../components/ui/Card";
 import Field, { Input, Select, Textarea } from "../../components/ui/Field";
 import Button from "../../components/ui/Button";
+import Badge from "../../components/ui/Badge";
+import { CAR_STATUT_LABELS, CAR_STATUT_COLORS } from "../../lib/statuts";
+
+const AUTO_MANAGED_STATUTS = ["reservee", "en_location", "retournee"];
 
 const emptyForm = {
   category_id: "",
@@ -153,11 +157,17 @@ export default function AdminCarForm() {
               />
             </Field>
             <Field label="Statut">
-              <Select value={form.statut} onChange={update("statut")}>
-                <option value="disponible">Disponible</option>
-                <option value="loue">Loué</option>
-                <option value="maintenance">Maintenance</option>
-              </Select>
+              {AUTO_MANAGED_STATUTS.includes(form.statut) ? (
+                <div className="flex h-[38px] items-center gap-2 rounded-md border border-slate-200 bg-slate-100 px-3 dark:border-slate-700 dark:bg-slate-800">
+                  <Badge color={CAR_STATUT_COLORS[form.statut]}>{CAR_STATUT_LABELS[form.statut]}</Badge>
+                  <span className="text-xs text-slate-500 dark:text-slate-400">géré automatiquement</span>
+                </div>
+              ) : (
+                <Select value={form.statut} onChange={update("statut")}>
+                  <option value="disponible">Disponible</option>
+                  <option value="maintenance">Maintenance</option>
+                </Select>
+              )}
             </Field>
           </div>
 

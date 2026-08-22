@@ -20,6 +20,8 @@ import AdminCarForm from "./pages/admin/AdminCarForm";
 import AdminCategories from "./pages/admin/AdminCategories";
 import AdminCategoryForm from "./pages/admin/AdminCategoryForm";
 import AdminChat from "./pages/admin/AdminChat";
+import AdminFleet from "./pages/admin/AdminFleet";
+import AdminFleetHistory from "./pages/admin/AdminFleetHistory";
 
 function App() {
   return (
@@ -73,6 +75,8 @@ function App() {
             <Route path="cars" element={<AdminCars />} />
             <Route path="cars/new" element={<AdminCarForm />} />
             <Route path="cars/:id/edit" element={<AdminCarForm />} />
+            <Route path="fleet" element={<AdminFleet />} />
+            <Route path="fleet/:carId" element={<AdminFleetHistory />} />
             <Route path="categories" element={<AdminCategories />} />
             <Route path="categories/new" element={<AdminCategoryForm />} />
             <Route path="categories/:id/edit" element={<AdminCategoryForm />} />

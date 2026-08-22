@@ -38,7 +38,9 @@ class AdminStatsController extends Controller
             'revenue' => (float) Payment::where('statut', 'paye')->sum('montant'),
             'cars_total' => Car::count(),
             'cars_disponible' => Car::where('statut', 'disponible')->count(),
-            'cars_loue' => Car::where('statut', 'loue')->count(),
+            'cars_reservee' => Car::where('statut', 'reservee')->count(),
+            'cars_en_location' => Car::where('statut', 'en_location')->count(),
+            'cars_retournee' => Car::where('statut', 'retournee')->count(),
             'cars_maintenance' => Car::where('statut', 'maintenance')->count(),
             'clients' => User::where('role', 'client')->count(),
         ];

@@ -63,10 +63,18 @@ export default function AdminDashboard() {
             title="Disponibilité du parc"
             bars={[
               { label: "Disponible", value: totals.cars_disponible, status: "good" },
-              { label: "Loué", value: totals.cars_loue, status: "warning" },
+              { label: "Réservée", value: totals.cars_reservee, status: "pending" },
+              { label: "En location", value: totals.cars_en_location, status: "info" },
+              { label: "Retournée", value: totals.cars_retournee, status: "warning" },
               { label: "Maintenance", value: totals.cars_maintenance, status: "critical" },
             ]}
           />
+          <Link
+            to="/admin/fleet"
+            className="mt-2 block text-center text-sm font-medium text-blue-900 hover:underline dark:text-blue-400"
+          >
+            Voir le suivi des véhicules →
+          </Link>
         </div>
 
         {/* Recent reservations */}

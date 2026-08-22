@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\NewReservationAdminMail;
 use App\Models\Car;
+use App\Models\CarMovement;
 use App\Models\Reservation;
 use App\Models\User;
 use Carbon\Carbon;
@@ -101,6 +102,8 @@ class ReservationController extends Controller
 
         $reservation->update(['statut' => $request->statut]);
 
+        $this->syncCarTracking($reservation, $request->statut);
+
         return response()->json($reservation->load('car'));
     }
 
@@ -126,6 +129,40 @@ class ReservationController extends Controller
             ->where('date_debut', '<=', $fin)
             ->where('date_fin', '>=', $debut)
             ->exists();
+    }
+
+    /**
+     * Garde le statut de la voiture et l'historique des mouvements synchronises
+     * avec le cycle de vie de la reservation (voir "Suivi des vehicules").
+     */
+    private function syncCarTracking(Reservation $reservation, string $newStatut): void
+    {
+        $car = $reservation->car;
+
+        if ($newStatut === 'confirmee') {
+            $car->update(['statut' => 'reservee']);
+        } elseif ($newStatut === 'en_cours') {
+            $car->update(['statut' => 'en_location']);
+
+            CarMovement::create([
+                'car_id' => $car->id,
+                'reservation_id' => $reservation->id,
+                'date_sortie' => now(),
+                'date_retour_prevue' => $reservation->date_fin,
+            ]);
+        } elseif ($newStatut === 'terminee') {
+            $car->update(['statut' => 'retournee']);
+
+            CarMovement::where('reservation_id', $reservation->id)
+                ->whereNull('date_retour_reelle')
+                ->latest('date_sortie')
+                ->first()
+                ?->update(['date_retour_reelle' => now()]);
+        } elseif ($newStatut === 'annulee') {
+            if ($car->statut === 'reservee') {
+                $car->update(['statut' => 'disponible']);
+            }
+        }
     }
 
     private function notifyAdmins(Reservation $reservation): void

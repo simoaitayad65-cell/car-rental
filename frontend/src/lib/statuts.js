@@ -1,12 +1,16 @@
 export const CAR_STATUT_LABELS = {
   disponible: "Disponible",
-  loue: "Loué",
+  reservee: "Réservée",
+  en_location: "En location",
+  retournee: "Retournée",
   maintenance: "Maintenance",
 };
 
 export const CAR_STATUT_COLORS = {
   disponible: "green",
-  loue: "amber",
+  reservee: "indigo",
+  en_location: "blue",
+  retournee: "amber",
   maintenance: "red",
 };
 

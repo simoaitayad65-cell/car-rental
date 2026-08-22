@@ -34,4 +34,14 @@ class Car extends Model
     {
         return $this->hasMany(Review::class);
     }
+
+    public function movements()
+    {
+        return $this->hasMany(CarMovement::class);
+    }
+
+    public function latestMovement()
+    {
+        return $this->hasOne(CarMovement::class)->latestOfMany('date_sortie');
+    }
 }
