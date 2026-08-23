@@ -40,12 +40,12 @@ class CarCategorySeeder extends Seeder
                 5, 'automatique', 'essence', 5, true, "SUV compact premium, position de conduite haute, excellent confort sur autoroute."],
             ['Citadine', 'Mercedes-Benz', 'Classe A', '825-VWX-01', 58, 'disponible', 'Mercedes-Benz W177 (2022) 1X7A6988.jpg',
                 5, 'automatique', 'essence', 5, true, "Citadine premium, intérieur haut de gamme et technologie embarquée, pour rouler avec style."],
-            ['Citadine', 'Dacia', 'Spring', '912-EAS-01', 32, 'disponible', '2024 Dacia Spring Extreme GIMS 2024 1X7A2020.jpg',
-                4, 'automatique', 'electrique', 5, true, "Citadine 100% électrique, économique à l'usage et parfaite pour circuler en ville sans essence."],
-            ['Utilitaire', 'Peugeot', 'Partner', '913-EBS-01', 45, 'disponible', '2012 Peugeot Partner 1.6 HDI panel van.JPG',
-                3, 'manuelle', 'diesel', 5, true, "Utilitaire compact au grand volume de chargement, idéal pour un déménagement ou du transport de matériel."],
-            ['Berline', 'BMW', 'Série 3', '914-ECS-01', 75, 'disponible', 'BMW G20 M340i Alpine White (1).jpg',
-                5, 'automatique', 'essence', 4, true, "Berline premium sportive, boîte automatique et finitions haut de gamme pour un trajet d'affaires ou de prestige."],
+            ['Citadine', 'Opel', 'Corsa', '915-OPL-01', 34, 'disponible', 'Opel Corsa F IMG 8196.jpg',
+                5, 'manuelle', 'essence', 5, true, "Citadine compacte et agile, parfaite pour circuler et se garer facilement en ville."],
+            ['SUV', 'Hyundai', 'Tucson', '916-TUC-01', 60, 'disponible', '23 Hyundai Tucson (NX4, LWB) fl 1.jpg',
+                5, 'automatique', 'hybride', 5, true, "SUV familial hybride, spacieux et bien équipé, confortable pour la ville comme pour la route."],
+            ['SUV', 'Land Rover', 'Range Rover Sport', '917-RRS-01', 95, 'disponible', 'Land Rover RANGE ROVER SPORT (L494) front.jpg',
+                5, 'automatique', 'essence', 5, true, "SUV de luxe britannique, confort et prestige absolus pour vos déplacements haut de gamme."],
         ];
 
         foreach ($cars as [
