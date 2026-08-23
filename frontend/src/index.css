@@ -34,9 +34,50 @@ body {
   animation: toast-in 0.25s ease both;
 }
 
+@keyframes blob-float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(12px, -18px) scale(1.06);
+  }
+}
+.animate-blob-float {
+  animation: blob-float 8s ease-in-out infinite;
+}
+
+@keyframes shake-in {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(5px);
+  }
+  60% {
+    transform: translateX(-3px);
+  }
+  80% {
+    transform: translateX(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.animate-shake-in {
+  animation: shake-in 0.4s ease;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up,
-  .animate-toast-in {
+  .animate-toast-in,
+  .animate-blob-float,
+  .animate-shake-in {
     animation: none !important;
     transition: none !important;
     opacity: 1 !important;
