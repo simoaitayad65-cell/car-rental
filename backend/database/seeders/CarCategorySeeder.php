@@ -40,6 +40,12 @@ class CarCategorySeeder extends Seeder
                 5, 'automatique', 'essence', 5, true, "SUV compact premium, position de conduite haute, excellent confort sur autoroute."],
             ['Citadine', 'Mercedes-Benz', 'Classe A', '825-VWX-01', 58, 'disponible', 'Mercedes-Benz W177 (2022) 1X7A6988.jpg',
                 5, 'automatique', 'essence', 5, true, "Citadine premium, intérieur haut de gamme et technologie embarquée, pour rouler avec style."],
+            ['Citadine', 'Dacia', 'Spring', '912-EAS-01', 32, 'disponible', '2024 Dacia Spring Extreme GIMS 2024 1X7A2020.jpg',
+                4, 'automatique', 'electrique', 5, true, "Citadine 100% électrique, économique à l'usage et parfaite pour circuler en ville sans essence."],
+            ['Utilitaire', 'Peugeot', 'Partner', '913-EBS-01', 45, 'disponible', '2012 Peugeot Partner 1.6 HDI panel van.JPG',
+                3, 'manuelle', 'diesel', 5, true, "Utilitaire compact au grand volume de chargement, idéal pour un déménagement ou du transport de matériel."],
+            ['Berline', 'BMW', 'Série 3', '914-ECS-01', 75, 'disponible', 'BMW G20 M340i Alpine White (1).jpg',
+                5, 'automatique', 'essence', 4, true, "Berline premium sportive, boîte automatique et finitions haut de gamme pour un trajet d'affaires ou de prestige."],
         ];
 
         foreach ($cars as [
