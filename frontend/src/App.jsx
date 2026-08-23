@@ -12,7 +12,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Cars from "./pages/Cars";
 import CarDetail from "./pages/CarDetail";
-import Reservations from "./pages/Reservations";
+import MyReservations from "./pages/MyReservations";
+import ReservationDetail from "./pages/ReservationDetail";
 import Chat from "./pages/Chat";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminCars from "./pages/admin/AdminCars";
@@ -22,6 +23,7 @@ import AdminCategoryForm from "./pages/admin/AdminCategoryForm";
 import AdminChat from "./pages/admin/AdminChat";
 import AdminFleet from "./pages/admin/AdminFleet";
 import AdminFleetHistory from "./pages/admin/AdminFleetHistory";
+import AdminReservations from "./pages/admin/AdminReservations";
 
 function App() {
   return (
@@ -48,7 +50,15 @@ function App() {
               path="/reservations"
               element={
                 <ProtectedRoute>
-                  <Reservations />
+                  <MyReservations />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/reservations/:id"
+              element={
+                <ProtectedRoute>
+                  <ReservationDetail />
                 </ProtectedRoute>
               }
             />
@@ -77,6 +87,7 @@ function App() {
             <Route path="cars/:id/edit" element={<AdminCarForm />} />
             <Route path="fleet" element={<AdminFleet />} />
             <Route path="fleet/:carId" element={<AdminFleetHistory />} />
+            <Route path="reservations" element={<AdminReservations />} />
             <Route path="categories" element={<AdminCategories />} />
             <Route path="categories/new" element={<AdminCategoryForm />} />
             <Route path="categories/:id/edit" element={<AdminCategoryForm />} />

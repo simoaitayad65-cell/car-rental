@@ -43,8 +43,8 @@ export default function Nav() {
           </NavLink>
           {user ? (
             <>
-              <NavLink to="/reservations" className={linkClasses}>
-                {user.role === "admin" ? "Réservations" : "Mes réservations"}
+              <NavLink to={user.role === "admin" ? "/admin/reservations" : "/reservations"} className={linkClasses}>
+                {user.role === "admin" ? "Réservations" : "Mes locations"}
               </NavLink>
               {user.role !== "admin" && (
                 <NavLink to="/chat" className={linkClasses}>
@@ -120,8 +120,12 @@ export default function Nav() {
           </NavLink>
           {user ? (
             <>
-              <NavLink to="/reservations" className={mobileLinkClasses} onClick={() => setOpen(false)}>
-                {user.role === "admin" ? "Réservations" : "Mes réservations"}
+              <NavLink
+                to={user.role === "admin" ? "/admin/reservations" : "/reservations"}
+                className={mobileLinkClasses}
+                onClick={() => setOpen(false)}
+              >
+                {user.role === "admin" ? "Réservations" : "Mes locations"}
               </NavLink>
               {user.role !== "admin" && (
                 <NavLink to="/chat" className={mobileLinkClasses} onClick={() => setOpen(false)}>

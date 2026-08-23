@@ -68,7 +68,10 @@ export default function Dashboard() {
             <h2 className="text-lg font-semibold text-slate-900">
               {user?.role === "admin" ? "Dernières réservations" : "Mes réservations"}
             </h2>
-            <Link to="/reservations" className="text-sm font-medium text-blue-900 hover:underline">
+            <Link
+              to={user?.role === "admin" ? "/admin/reservations" : "/reservations"}
+              className="text-sm font-medium text-blue-900 hover:underline"
+            >
               Voir tout →
             </Link>
           </div>

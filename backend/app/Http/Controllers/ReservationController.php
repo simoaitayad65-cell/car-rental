@@ -18,7 +18,7 @@ class ReservationController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        $query = Reservation::with(['car', 'user']);
+        $query = Reservation::with(['car.category', 'user']);
 
         if ($user->role !== 'admin') {
             $query->where('user_id', $user->id);
@@ -31,7 +31,7 @@ class ReservationController extends Controller
     {
         $this->authorizeAccess($request, $reservation);
 
-        return response()->json($reservation->load(['car', 'user', 'payment']));
+        return response()->json($reservation->load(['car.category', 'user', 'payment']));
     }
 
     public function store(Request $request)

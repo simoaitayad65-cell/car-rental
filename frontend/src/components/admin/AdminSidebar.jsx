@@ -20,7 +20,7 @@ const links = [
   { to: "/admin/cars", label: "Voitures", icon: Car },
   { to: "/admin/fleet", label: "Suivi des véhicules", icon: RouteIcon },
   { to: "/admin/categories", label: "Catégories", icon: Tags },
-  { to: "/reservations", label: "Réservations", icon: CalendarCheck },
+  { to: "/admin/reservations", label: "Gestion des locations", icon: CalendarCheck },
   { to: "/admin/chat", label: "Messages", icon: MessageCircle },
 ];
 

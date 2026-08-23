@@ -81,7 +81,7 @@ export default function AdminDashboard() {
         <div className="rounded-xl border border-slate-200 bg-slate-50 shadow-sm dark:border-slate-800 dark:bg-slate-900 lg:col-span-2">
           <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 dark:border-slate-800">
             <h3 className="text-sm font-semibold text-slate-700 dark:text-slate-200">Dernières réservations</h3>
-            <Link to="/reservations" className="text-sm font-medium text-blue-900 hover:underline dark:text-blue-400">
+            <Link to="/admin/reservations" className="text-sm font-medium text-blue-900 hover:underline dark:text-blue-400">
               Voir tout →
             </Link>
           </div>
