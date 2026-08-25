@@ -44,8 +44,8 @@ class CarCategorySeeder extends Seeder
                 5, 'manuelle', 'essence', 5, true, "Citadine compacte et agile, parfaite pour circuler et se garer facilement en ville."],
             ['SUV', 'Hyundai', 'Tucson', '916-TUC-01', 60, 'disponible', '23 Hyundai Tucson (NX4, LWB) fl 1.jpg',
                 5, 'automatique', 'hybride', 5, true, "SUV familial hybride, spacieux et bien équipé, confortable pour la ville comme pour la route."],
-            ['SUV', 'Land Rover', 'Range Rover Sport', '917-RRS-01', 95, 'disponible', 'Land Rover RANGE ROVER SPORT (L494) front.jpg',
-                5, 'automatique', 'essence', 5, true, "SUV de luxe britannique, confort et prestige absolus pour vos déplacements haut de gamme."],
+            ['SUV', 'Land Rover', 'Range Rover Evoque', '917-RRS-01', 80, 'disponible', 'Range Rover Evoque (L551) 1X7A7459.jpg',
+                5, 'automatique', 'essence', 5, true, "SUV de luxe britannique compact, look racé et intérieur raffiné, pour rouler avec prestige au quotidien."],
         ];
 
         foreach ($cars as [
