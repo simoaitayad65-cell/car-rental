@@ -16,6 +16,7 @@ import {
   CAR_STATUT_LABELS,
   CAR_STATUT_COLORS,
 } from "../lib/statuts";
+import { handleImageError } from "../lib/imageFallback";
 
 const TRANSMISSION_LABELS = { manuelle: "Boîte manuelle", automatique: "Boîte automatique" };
 const CARBURANT_LABELS = { essence: "Essence", diesel: "Diesel", hybride: "Hybride", electrique: "Électrique" };
@@ -86,7 +87,12 @@ export default function ReservationDetail() {
 
       <Card className="mb-6 overflow-hidden">
         {car?.image && (
-          <img src={car.image} alt={`${car.marque} ${car.modele}`} className="h-56 w-full object-cover sm:h-72" />
+          <img
+            src={car.image}
+            alt={`${car.marque} ${car.modele}`}
+            className="h-56 w-full object-cover sm:h-72"
+            onError={handleImageError}
+          />
         )}
         <div className="flex flex-wrap items-start justify-between gap-2 p-5">
           <div>

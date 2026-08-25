@@ -3,6 +3,7 @@ import { Users, Cog, Fuel } from "lucide-react";
 import Card from "./ui/Card";
 import Badge from "./ui/Badge";
 import { CAR_STATUT_LABELS, CAR_STATUT_COLORS } from "../lib/statuts";
+import { handleImageError } from "../lib/imageFallback";
 
 const TRANSMISSION_LABELS = { manuelle: "Manuelle", automatique: "Automatique" };
 const CARBURANT_LABELS = { essence: "Essence", diesel: "Diesel", hybride: "Hybride", electrique: "Électrique" };
@@ -18,6 +19,7 @@ export default function CarCard({ car }) {
               alt={`${car.marque} ${car.modele}`}
               className="h-48 w-full object-cover transition-transform duration-500 group-hover:scale-105"
               loading="lazy"
+              onError={handleImageError}
             />
           ) : (
             <div className="flex h-48 w-full items-center justify-center bg-slate-100 text-sm text-slate-400 dark:bg-slate-800">

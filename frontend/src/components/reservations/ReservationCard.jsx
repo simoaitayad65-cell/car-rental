@@ -4,6 +4,7 @@ import Card from "../ui/Card";
 import Badge from "../ui/Badge";
 import ReservationTimeline from "./ReservationTimeline";
 import { RESERVATION_STATUT_LABELS, RESERVATION_STATUT_COLORS } from "../../lib/statuts";
+import { handleImageError } from "../../lib/imageFallback";
 
 function formatDate(d) {
   if (!d) return "—";
@@ -17,7 +18,14 @@ export default function ReservationCard({ reservation }) {
     <Card className="overflow-hidden">
       <div className="flex gap-4 p-4">
         <div className="h-20 w-28 shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-800">
-          {car?.image && <img src={car.image} alt={`${car.marque} ${car.modele}`} className="h-full w-full object-cover" />}
+          {car?.image && (
+            <img
+              src={car.image}
+              alt={`${car.marque} ${car.modele}`}
+              className="h-full w-full object-cover"
+              onError={handleImageError}
+            />
+          )}
         </div>
         <div className="min-w-0 flex-1">
           <div className="mb-1 flex flex-wrap items-start justify-between gap-2">

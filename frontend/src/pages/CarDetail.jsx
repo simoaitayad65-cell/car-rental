@@ -8,6 +8,7 @@ import Card from "../components/ui/Card";
 import Badge from "../components/ui/Badge";
 import Skeleton from "../components/ui/Skeleton";
 import { CAR_STATUT_LABELS, CAR_STATUT_COLORS } from "../lib/statuts";
+import { handleImageError } from "../lib/imageFallback";
 
 const TRANSMISSION_LABELS = { manuelle: "Boîte manuelle", automatique: "Boîte automatique" };
 const CARBURANT_LABELS = { essence: "Essence", diesel: "Diesel", hybride: "Hybride", electrique: "Électrique" };
@@ -75,7 +76,12 @@ export default function CarDetail() {
         <div className="lg:col-span-2">
           <Card className="overflow-hidden">
             {activeImage && (
-              <img src={activeImage} alt={`${car.marque} ${car.modele}`} className="h-72 w-full object-cover sm:h-96" />
+              <img
+                src={activeImage}
+                alt={`${car.marque} ${car.modele}`}
+                className="h-72 w-full object-cover sm:h-96"
+                onError={handleImageError}
+              />
             )}
             {thumbnails.length > 1 && (
               <div className="flex gap-2 overflow-x-auto p-3">
@@ -88,7 +94,7 @@ export default function CarDetail() {
                       activeImage === src ? "ring-blue-900" : "ring-transparent opacity-70 hover:opacity-100"
                     }`}
                   >
-                    <img src={src} alt="" className="h-full w-full object-cover" />
+                    <img src={src} alt="" className="h-full w-full object-cover" onError={handleImageError} />
                   </button>
                 ))}
               </div>

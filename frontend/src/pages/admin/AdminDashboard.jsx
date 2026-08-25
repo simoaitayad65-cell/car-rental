@@ -7,6 +7,7 @@ import LineChart from "../../components/admin/LineChart";
 import StatusBarChart from "../../components/admin/StatusBarChart";
 import Badge from "../../components/ui/Badge";
 import { RESERVATION_STATUT_LABELS, RESERVATION_STATUT_COLORS } from "../../lib/statuts";
+import { handleImageError } from "../../lib/imageFallback";
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null);
@@ -136,6 +137,7 @@ export default function AdminDashboard() {
                   src={car.image}
                   alt={`${car.marque} ${car.modele}`}
                   className="h-24 w-full object-cover transition-transform group-hover:scale-105"
+                  onError={handleImageError}
                 />
               )}
               <div className="p-2">
